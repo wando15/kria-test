@@ -6,10 +6,9 @@ namespace Domain.Models
     {
         public Transacao()
         {
-            GetMultiplicadorTarifa();
         }
 
-        public Transacao(int idtransacao, DateTime dtcriacao, string codigopracapedagio, int codigocabine, string instante, SentidoEnum sentido, int quantidadeeixosveiculo, int rodagem, BinarioEnum isento, int motivoisencao, BinarioEnum evasao, int eixosuspenso, int quantidadeeixossuspensos, TipoCobrancaEfetuadaEnum tipocobranca, string placa, int liberacaocancela, decimal valordevido, decimal valorarrecadado, string cnpjamap, string multiplicadortarifa, int veiculocarregado, string idtag) : base()
+        public Transacao(int idtransacao, DateTime dtcriacao, string codigopracapedagio, int codigocabine, string instante, SentidoEnum sentido, int quantidadeeixosveiculo, int rodagem, BinarioEnum isento, int motivoisencao, BinarioEnum evasao, int eixosuspenso, int quantidadeeixossuspensos, TipoCobrancaEfetuadaEnum tipocobranca, string placa, int liberacaocancela, decimal valordevido, decimal valorarrecadado, string cnpjamap, int veiculocarregado, string idtag) : base()
         {
             IdTransacao = idtransacao;
             DtCriacao = dtcriacao;
@@ -32,13 +31,15 @@ namespace Domain.Models
             CnpjAmap = cnpjamap;
             VeiculoCarregado = veiculocarregado;
             IdTag = idtag;
+
+            ValidarMultiplicadorTarifa();
         }
 
         public int IdTransacao { get; set; }
         public DateTime DtCriacao { get; set; }
-        public string CodigoPracaPedagio { get; set; }
+        public string? CodigoPracaPedagio { get; set; }
         public int CodigoCabine { get; set; }
-        public string Instante { get; set; }
+        public string? Instante { get; set; }
         public SentidoEnum Sentido { get; set; }
         public BinarioEnum Isento { get; set; }
         public int MotivoIsencao { get; set; }
@@ -53,21 +54,39 @@ namespace Domain.Models
         public decimal ValorDevido { get; set; }
         public decimal ValorArrecadado { get; set; }
         public string? CnpjAmap { get; set; }
-        public decimal MultiplicadorTarifa { get; set; }
+        public decimal? MultiplicadorTarifa { get; set; }
         public int VeiculoCarregado { get; set; }
         public string? IdTag { get; set; }
 
         public TipoVeiculoEnum GetTipoVeiulo()
         {
-            if (QuantidadeEixosVeiculo == 2 && Rodagem == 2)
+            // Lógica de Validação:
+
+            // Prioridade 1: Moto (Geralmente 2 eixos e 0 eixos suspensos)
+            if (QuantidadeEixosVeiculo == 2 && QuantidadeEixosSuspensos == 0 && Rodagem == 1)
+            {
                 return TipoVeiculoEnum.Moto;
-            else if (QuantidadeEixosVeiculo <= 2)
-                return TipoVeiculoEnum.Passeio;
-            else
+            }
+
+            // Prioridade 2: Comercial (Possui eixos suspensos ou mais de 2 eixos)
+            // EixoSuspenso == 1 geralmente indica que o veículo TEM a capacidade de suspender eixo.
+            if (EixoSuspenso == 1 || QuantidadeEixosSuspensos > 0 || QuantidadeEixosVeiculo > 2)
+            {
                 return TipoVeiculoEnum.Comercial;
+            }
+
+            // Prioridade 3: Passeio (Geralmente 4 rodas/2 eixos, sem eixos suspensos)
+            // Isso engloba carros e caminhonetes de uso comum.
+            if (QuantidadeEixosVeiculo <= 2 && QuantidadeEixosSuspensos == 0)
+            {
+                return TipoVeiculoEnum.Passeio;
+            }
+
+            // Caso padrão ou se a lógica não cobrir (pode ser ajustado conforme necessário)
+            return TipoVeiculoEnum.Passeio;
         }
 
-        public void GetMultiplicadorTarifa()
+        public void ValidarMultiplicadorTarifa()
         {
             switch (GetTipoVeiulo())
             {
@@ -89,6 +108,11 @@ namespace Domain.Models
                 case TipoVeiculoEnum.Comercial:
                     {
                         MultiplicadorTarifa = new Random().Next(2, 20);
+                        break;
+                    }
+                default:
+                    {
+                        MultiplicadorTarifa = 0m;
                         break;
                     }
             }

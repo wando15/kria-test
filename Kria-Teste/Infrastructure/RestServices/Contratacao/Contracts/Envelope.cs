@@ -15,7 +15,7 @@ namespace Infrastructure.RestServices.Contratacao.Contracts
 
         public string DataReferencia { get; set; }
         public int NumeroArquivo { get; set; }
-        public List<Registro> Registros { get; set; }
+        public List<Registro>? Registros { get; set; }
         public string Candidato { get; set; }
 
         public void AddRegistros(List<Transacao> transacoes)
@@ -26,9 +26,9 @@ namespace Infrastructure.RestServices.Contratacao.Contracts
                 Registros.Add(new Registro()
                 {
                     Guid = transacao.Id.ToString(),
-                    CodigoPracaPedagio = transacao.CodigoPracaPedagio,
+                    CodigoPracaPedagio = transacao.CodigoPracaPedagio ?? string.Empty,
                     CodigoCabine = transacao.CodigoCabine.ToString(),
-                    Instante = transacao.Instante,
+                    Instante = transacao.Instante ?? string.Empty,
                     Sentido = transacao.Sentido.GetEnumDescription(),
                     TipoVeiculo = transacao.GetTipoVeiulo().GetEnumDescription(),
                     Isento = transacao.Isento.GetEnumDescription(),
@@ -36,7 +36,7 @@ namespace Infrastructure.RestServices.Contratacao.Contracts
                     TipoCobrancaEfetuada = transacao.TipoCobranca.GetEnumDescription(),
                     ValorDevido = transacao.ValorDevido.ToString("F2"),
                     ValorArrecadado = transacao.ValorArrecadado.ToString("F2"),
-                    MultiplicadorTarifa = transacao.MultiplicadorTarifa.ToString("F2"),
+                    MultiplicadorTarifa = (transacao.MultiplicadorTarifa ?? 0.0M).ToString("F2"),
                 });
             }
         }

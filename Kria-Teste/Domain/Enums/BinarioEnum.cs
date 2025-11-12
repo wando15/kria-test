@@ -5,8 +5,8 @@ namespace Domain.Enums
     public enum BinarioEnum
     {
         [Description("Não")]
-        Nao = 1,
+        Nao = 2,
         [Description("Sim")]
-        Sim = 2
+        Sim = 1
     }
 }

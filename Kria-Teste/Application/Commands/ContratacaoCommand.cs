@@ -1,6 +1,5 @@
 ﻿using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
-using Domain.Models;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Commands
@@ -27,7 +26,7 @@ namespace Application.Commands
             var i = 1;
             foreach (var transacao in transacoes.Chunk(1000).ToList())
             {
-                _contratacaoService.ExecuteContratacaoAsync(i, new List<Transacao>(transacao), cancellationToken).Wait(cancellationToken);
+                await _contratacaoService.ExecuteContratacaoAsync(i, [.. transacao], cancellationToken);
                 i++;
             }
         }
