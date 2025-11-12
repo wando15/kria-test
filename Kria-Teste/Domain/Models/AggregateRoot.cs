@@ -1,10 +1,11 @@
 ﻿using System.Text.Json.Serialization;
+using MongoDB.Bson; // Adiciona o using necessário para ObjectId
 
 namespace Domain.Models
 {
     public class AggregateRoot
     {
-        [property: JsonPropertyName("_id")]
-        public Guid Id { get; set; }
+        [JsonPropertyName("_id")]
+        public ObjectId Id { get; set; }
     }
 }

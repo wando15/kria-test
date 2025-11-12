@@ -70,7 +70,7 @@ namespace Infrastructure.RestServices
 
         private static async Task<T> ExecuteRequestAsync<T>(RestClient client, RestRequest request)
         {
-            var response = await client.ExecuteAsync(request).ConfigureAwait(false);
+            var response = await client.ExecuteAsync(request);
 
             if (response == null)
                 throw new InvalidOperationException("Nenhuma resposta recebida do servidor.");

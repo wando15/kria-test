@@ -23,11 +23,11 @@ namespace Infrastructure.RestServices.Contratacao.Contracts
             Registros = new List<Registro>();
             foreach (var transacao in transacoes)
             {
-                var registro = new Registro()
+                Registros.Add(new Registro()
                 {
                     Guid = transacao.Id.ToString(),
                     CodigoPracaPedagio = transacao.CodigoPracaPedagio,
-                    CodigoCabine = transacao.CodigoCabine,
+                    CodigoCabine = transacao.CodigoCabine.ToString(),
                     Instante = transacao.Instante,
                     Sentido = transacao.Sentido.GetEnumDescription(),
                     TipoVeiculo = transacao.GetTipoVeiulo().GetEnumDescription(),
@@ -36,8 +36,8 @@ namespace Infrastructure.RestServices.Contratacao.Contracts
                     TipoCobrancaEfetuada = transacao.TipoCobranca.GetEnumDescription(),
                     ValorDevido = transacao.ValorDevido.ToString("F2"),
                     ValorArrecadado = transacao.ValorArrecadado.ToString("F2"),
-                    MultiplicadorTarifa = transacao.MultiplicadorTarifa,
-                };
+                    MultiplicadorTarifa = transacao.MultiplicadorTarifa.ToString("F2"),
+                });
             }
         }
     }

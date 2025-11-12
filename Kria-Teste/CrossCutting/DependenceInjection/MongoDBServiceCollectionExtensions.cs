@@ -5,11 +5,11 @@ using MongoDB.Driver;
 using Infrastructure.ConfigurationRoot;
 namespace CrossCutting.DependenceInjection
 {
-    public static class MongoDBServiceCollectionExtensions
+    public static class MongoDbServiceCollectionExtensions
     {
         public static IServiceCollection AddMongoDB(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton<IMongoClient>(serviceProvider =>
+            services.AddScoped<IMongoClient>(serviceProvider =>
             {
                 var connectionString = configuration.GetConnectionString("mongoDB");
                 return new MongoClient(connectionString);

@@ -11,8 +11,7 @@ namespace Infrastructure.RestServices.Contratacao.Contracts
         public string CodigoPracaPedagio { get; set; }
 
         [JsonPropertyName("codigoCabine")]
-        public int CodigoCabine { get; set; }
-
+        public string CodigoCabine { get; set; }
         [JsonPropertyName("instante")]
         public string Instante { get; set; }
 
@@ -38,6 +37,6 @@ namespace Infrastructure.RestServices.Contratacao.Contracts
         public string ValorArrecadado { get; set; }
 
         [JsonPropertyName("multiplicadorTarifa")]
-        public decimal MultiplicadorTarifa { get; set; }
+        public string MultiplicadorTarifa { get; set; }
     }
 }

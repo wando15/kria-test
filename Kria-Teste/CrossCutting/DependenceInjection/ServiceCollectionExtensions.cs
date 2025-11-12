@@ -8,8 +8,7 @@ namespace CrossCutting.DependenceInjection
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            // Register your services here
-            services.AddTransient<IContratacaoService, ContratacaoService>();
+            services.AddScoped<IContratacaoService, ContratacaoService>();
             return services;
         }
     }

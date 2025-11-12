@@ -1,24 +1,28 @@
 using Application.Commands;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace ContratacaoService
 {
     public class ContratacaoWorkerService : BackgroundService
     {
+        private readonly IServiceProvider _provider;
         private readonly ILogger<ContratacaoWorkerService> _logger;
-        private readonly ContratacaoCommand _contratacaoCommand;
 
-        public ContratacaoWorkerService(ILogger<ContratacaoWorkerService> logger, ContratacaoCommand contratacaoCommand)
+        public ContratacaoWorkerService(IServiceProvider provider, ILogger<ContratacaoWorkerService> logger)
         {
+            _provider = provider;
             _logger = logger;
-            _contratacaoCommand = contratacaoCommand;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                await _contratacaoCommand.ExecuteAsync(cancellationToken);
-            }
+            _logger.LogInformation("Init run Service");
+            using var scope = _provider.CreateScope();
+            var cmd = scope.ServiceProvider.GetRequiredService<ContratacaoCommand>();
+            await cmd.ExecuteAsync(stoppingToken);
+            _logger.LogInformation("Finish run Service");
         }
     }
 }

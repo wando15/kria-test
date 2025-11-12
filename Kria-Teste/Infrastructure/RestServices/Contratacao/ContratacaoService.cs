@@ -19,11 +19,11 @@ namespace Infrastructure.RestServices.Contratacao
         {
             try
             {
-                var apiUrl = _configuration.GetSection("KriaUsuarios:Url").Value;
-                var endpoint = _configuration.GetSection("ContratacaoApi:Endpoint:PubliarDesafio").Value;
-                var fullUrl = $"{apiUrl}/{endpoint}";
+                var apiUrl = _configuration.GetSection("ExternalServices:KriaUsuarios:Url").Value;
+                var endpoint = _configuration.GetSection("ExternalServices:KriaUsuarios:Endpoints:PublicarDesafio").Value;
+                var fullUrl = Path.Combine(apiUrl, endpoint);
                 var body = System.Text.Json.JsonSerializer.Serialize(new Envelope(numeroArquivo, transacoes));
-                var response = await PostAsync<object>(fullUrl, System.Text.Json.JsonSerializer.Serialize(transacoes));
+                var response = await PostAsync<object>(fullUrl, body);
                 _logger.LogInformation("Contratacao executed successfully. Response: {Response}", response);
             }
             catch (Exception ex)
