@@ -4,4 +4,5 @@
   <Project Path="CrossCutting/CrossCutting.csproj" Id="e2bf7765-6660-4b1f-91ee-aed48487afa8" />
   <Project Path="Domain/Domain.csproj" Id="0a6449dc-feb9-4d4d-b079-8da89c0d7cb0" />
   <Project Path="Infrastructure/Infrastructure.csproj" Id="13a15bc0-c48a-432f-875a-cadcbcd937c2" />
+  <Project Path="Kria-Tests.UnitTests/Kria-Tests.UnitTests.csproj" Id="debf385c-6b82-4c4f-80c8-48326e471ab5" />
 </Solution>

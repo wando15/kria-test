@@ -1,5 +1,4 @@
-﻿using Domain.Interfaces.Commands;
-using Domain.Interfaces.Repositories;
+﻿using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Domain.Models;
 using Microsoft.Extensions.Logging;
